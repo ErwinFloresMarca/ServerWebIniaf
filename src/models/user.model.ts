@@ -1,7 +1,9 @@
 import {Entity, model, property} from '@loopback/repository';
 import {PermissionKey} from '../authorization/permission-key';
 
-@model()
+@model({
+  settings: {hidden: ['password']},
+})
 export class User extends Entity {
   @property({
     type: 'string',
@@ -12,13 +14,18 @@ export class User extends Entity {
 
   @property({
     type: 'string',
-    unique: true,
+    index: true,
   })
   name?: string;
 
   @property({
     type: 'string',
-    unique: 'string',
+  })
+  avatar?: string;
+
+  @property({
+    type: 'string',
+    index: true,
     required: true,
   })
   email: string;
@@ -27,7 +34,7 @@ export class User extends Entity {
     type: 'string',
     required: true,
   })
-  password: string;
+  password?: string;
 
   @property.array(String)
   permissions: PermissionKey[];

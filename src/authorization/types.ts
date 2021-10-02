@@ -10,6 +10,7 @@ export interface UserPermissionsFn {
 
 export interface AuthUser extends UserProfile {
   id?: string;
+  avatar?: string;
   name: string;
   email: string;
   permissions: PermissionKey[];

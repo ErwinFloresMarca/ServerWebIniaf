@@ -13,9 +13,11 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {
+  BcryptHasher,
   JWTService,
   JWTStrategy,
   MyAuthBindings,
+  PasswordHasherBindings,
   UserPermissionsProvider,
 } from './authorization';
 import {MySequence} from './sequence';
@@ -57,6 +59,10 @@ export class WebIniaf extends BootMixin(
 
     // Bind JWT & permission authentication strategy related elements
     registerAuthenticationStrategy(this, JWTStrategy);
+
+    // Bind bcrypt hash services
+    this.bind(PasswordHasherBindings.ROUNDS).to(10);
+    this.bind(PasswordHasherBindings.PASSWORD_HASHER).toClass(BcryptHasher);
     this.bind(MyAuthBindings.TOKEN_SERVICE).toClass(JWTService);
     this.bind(MyAuthBindings.USER_PERMISSIONS).toProvider(
       UserPermissionsProvider,

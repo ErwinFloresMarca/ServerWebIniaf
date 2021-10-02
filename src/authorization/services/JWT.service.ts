@@ -1,10 +1,12 @@
 import {TokenService} from '@loopback/authentication';
+import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {securityId} from '@loopback/security';
 import {toJSON} from '@loopback/testlab';
 import * as _ from 'lodash';
 import {promisify} from 'util';
+import {PasswordHasher, PasswordHasherBindings} from '..';
 import {UserRepository} from '../../repositories';
 import {TokenServiceConstants} from '../keys';
 import {AuthCredential, AuthUser} from '../types';
@@ -17,6 +19,8 @@ export class JWTService implements TokenService {
   constructor(
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @inject(PasswordHasherBindings.PASSWORD_HASHER)
+    public passwordHasher: PasswordHasher,
   ) {}
 
   async verifyToken(token: string): Promise<AuthUser> {
@@ -63,7 +67,12 @@ export class JWTService implements TokenService {
       );
     }
 
-    if (credential.password !== foundUser.password) {
+    const passwordMatched = await this.passwordHasher.comparePassword(
+      credential.password,
+      foundUser.password ? foundUser.password : '',
+    );
+
+    if (!passwordMatched) {
       throw new HttpErrors.Unauthorized('The credentials are not correct.');
     }
     const currentUser: AuthUser = _.pick(toJSON(foundUser), [
