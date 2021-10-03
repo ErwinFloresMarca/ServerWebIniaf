@@ -33,18 +33,19 @@ export class MySequence implements SequenceHandler {
   async handle(context: RequestContext) {
     try {
       const {request, response} = context;
+      response.header('Access-Control-Allow-Origin', '*');
+      response.header('Access-Control-Allow-Headers', '*');
+      response.header(
+        'Access-Control-Allow-Methods',
+        'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+      );
+      response.header('Access-Control-Max-Age', '86400');
+
       if (request.method === 'OPTIONS') {
-        response.header('Access-Control-Allow-Origin', '*');
-        response.header('Access-Control-Allow-Headers', '*');
-        response.header(
-          'Access-Control-Allow-Methods',
-          'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-        );
-        response.header('Access-Control-Max-Age', '86400');
         response.status(200);
         this.send(response, 'ok');
       } else {
-        await this.invokeMiddleware(context, this.options);
+        // await this.invokeMiddleware(context, this.options);
         const route = this.findRoute(request);
         const args = await this.parseParams(request, route);
         //add authentication actions

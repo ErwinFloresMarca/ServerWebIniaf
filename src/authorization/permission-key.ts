@@ -9,4 +9,8 @@ export const enum PermissionKey {
   ViewUser = 'ViewUser',
   // For deleting a user
   DeleteUser = 'DeleteUser',
+  //Contactos permissions
+  ManageCotacto = 'ManageContacto',
+  ManageUltimosViajes = 'ManageUltimosViajes',
+  ManageNoticias = 'ManageNoticias',
 }

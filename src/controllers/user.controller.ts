@@ -68,6 +68,9 @@ export class UserController {
       PermissionKey.DeleteUser,
       PermissionKey.UpdateUser,
       PermissionKey.ViewUser,
+      PermissionKey.ManageCotacto,
+      PermissionKey.ManageNoticias,
+      PermissionKey.ManageUltimosViajes,
     ];
     let foundUser = await this.userRepository.findOne({
       where: {email: user.email},
@@ -234,9 +237,20 @@ export class UserController {
     if (user.password) {
       const password = await this.passwordHasher.hashPassword(user.password);
       user.password = password;
-    } else {
-      throw new HttpErrors.UnprocessableEntity('password is not null');
     }
+
+    if (!user.permissions) {
+      user.permissions = [
+        PermissionKey.CreateUser,
+        PermissionKey.DeleteUser,
+        PermissionKey.UpdateUser,
+        PermissionKey.ViewUser,
+        PermissionKey.ManageCotacto,
+        PermissionKey.ManageNoticias,
+        PermissionKey.ManageUltimosViajes,
+      ];
+    }
+
     await this.userRepository.updateById(id, user);
   }
 
