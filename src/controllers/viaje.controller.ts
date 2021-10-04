@@ -46,7 +46,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async create(
@@ -98,7 +98,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async updateAll(
@@ -127,7 +127,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async findById(
@@ -145,7 +145,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async updateById(
@@ -169,7 +169,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async replaceById(
@@ -186,7 +186,7 @@ export class ViajeController {
   @authenticate({
     strategy: 'jwt',
     options: {
-      required: [PermissionKey.ManageNoticias],
+      required: [PermissionKey.ManageUltimosViajes],
     },
   })
   async deleteById(@param.path.string('id') id: string): Promise<void> {
