@@ -22,6 +22,13 @@ export class Noticia extends Entity {
   desc: string;
 
   @property({
+    type: 'array',
+    itemType: 'object',
+    default: [],
+  })
+  imagenes?: object[];
+
+  @property({
     type: 'date',
     defaultFn: 'now',
   })

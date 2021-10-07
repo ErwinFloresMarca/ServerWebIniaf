@@ -33,6 +33,13 @@ export class Viaje extends Entity {
   })
   fechaViaje: string;
 
+  @property({
+    type: 'array',
+    itemType: 'object',
+    default: [],
+  })
+  imagenes?: object[];
+
   constructor(data?: Partial<Viaje>) {
     super(data);
   }
